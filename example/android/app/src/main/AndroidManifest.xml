@@ -38,4 +38,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <!-- Flutter needs this to communicate with the canon camera. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>
