@@ -1,42 +1,27 @@
+import 'package:canon_ccapi_example/find_camera.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:canon_ccapi/canon_ccapi.dart';
-import 'package:upnp/upnp.dart';
+import 'find_camera.dart';
 
 void main() {
   runApp(const CanonCCAPIDemo());
 }
 
-class CanonCCAPIDemo extends StatefulWidget {
+class CanonCCAPIDemo extends StatelessWidget {
   const CanonCCAPIDemo({Key? key}) : super(key: key);
-
-  @override
-  State<CanonCCAPIDemo> createState() => _CanonCCAPIDemoState();
-}
-
-class _CanonCCAPIDemoState extends State<CanonCCAPIDemo> {
-  var discoverer = DeviceDiscoverer();
-
-
-  @override
-  void initState() {
-super.initState();
-discoverer.getDevices(type: )
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Canon camera'),
         ),
-        body: Center(
-          child: ,
+        body:  Center(
+          child: FindCamera()
         ),
       ),
     );
   }
+
 }
