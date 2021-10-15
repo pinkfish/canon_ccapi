@@ -119,7 +119,6 @@ class ConnectionEncryption extends EnumClass {
       _$ConnectionEncryptionValueOf(name);
 }
 
-
 ///
 /// The level of the ipv4AddressSet on the camera.
 ///
@@ -134,26 +133,21 @@ class Ipv4AddressSet extends EnumClass {
   /// wep encryption.
   static const Ipv4AddressSet manual = _$manual;
 
-
   const Ipv4AddressSet._(String name) : super(name);
 
   /// The values of the enum.
-  static BuiltSet<Ipv4AddressSet> get values =>
-      _$Ipv4AddressSetValues;
+  static BuiltSet<Ipv4AddressSet> get values => _$Ipv4AddressSetValues;
 
   /// The value from the string.
-  static Ipv4AddressSet valueOf(String name) =>
-      _$Ipv4AddressSetValueOf(name);
+  static Ipv4AddressSet valueOf(String name) => _$Ipv4AddressSetValueOf(name);
 }
-
 
 ///
 /// EnableDisable the thing.
 ///
 class EnableDisable extends EnumClass {
   /// The serializer for the EnableDisable enum
-  static Serializer<EnableDisable> get serializer =>
-      _$enableDisableSerializer;
+  static Serializer<EnableDisable> get serializer => _$enableDisableSerializer;
 
   /// enable the thing.
   static const EnableDisable enable = _$enable;
@@ -161,18 +155,14 @@ class EnableDisable extends EnumClass {
   /// disable the thing.
   static const EnableDisable disable = _$disable;
 
-
   const EnableDisable._(String name) : super(name);
 
   /// The values of the enum.
-  static BuiltSet<EnableDisable> get values =>
-      _$EnableDisableValues;
+  static BuiltSet<EnableDisable> get values => _$EnableDisableValues;
 
   /// The value from the string.
-  static EnableDisable valueOf(String name) =>
-      _$EnableDisableValueOf(name);
+  static EnableDisable valueOf(String name) => _$EnableDisableValueOf(name);
 }
-
 
 ///
 /// The communication setting stuff.
@@ -235,5 +225,40 @@ abstract class CommunicationSetting
   static CommunicationSetting fromMap(Map<String, dynamic> jsonData) {
     return dataSerializers.deserializeWith(
         CommunicationSetting.serializer, jsonData) as CommunicationSetting;
+  }
+}
+
+///
+/// All the communication settings!
+///
+abstract class AllCommunicationSettings
+    implements
+        Built<AllCommunicationSettings, AllCommunicationSettingsBuilder> {
+  /// The communication settings by name.
+  Map<String, CommunicationSetting> get settings;
+
+  /// Serializer for the AllCommunicationSettings.
+  static Serializer<AllCommunicationSettings> get serializer =>
+      _$allCommunicationSettingsSerializer;
+
+  /// Private constructor for AllCommunicationSettings
+  AllCommunicationSettings._();
+
+  /// Create the AllCommunicationSettings class with a nifty factory.
+  factory AllCommunicationSettings(
+          [void Function(AllCommunicationSettingsBuilder) updates]) =
+      _$AllCommunicationSettings;
+
+  /// Serialize the AllCommunicationSettings to a map.
+  Map<String, dynamic> toMap() {
+    return dataSerializers.serializeWith(
+        AllCommunicationSettings.serializer, this) as Map<String, dynamic>;
+  }
+
+  /// Deserialize the AllCommunicationSettings from a map.
+  static AllCommunicationSettings fromMap(Map<String, dynamic> jsonData) {
+    return dataSerializers.deserializeWith(
+            AllCommunicationSettings.serializer, {'settings': jsonData})
+        as AllCommunicationSettings;
   }
 }

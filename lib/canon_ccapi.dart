@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:canon_ccapi/data/api_info.dart';
 import 'package:canon_ccapi/data/battery_info.dart';
+import 'package:canon_ccapi/data/communication_setting.dart';
 import 'package:canon_ccapi/data/lens_info.dart';
 import 'package:canon_ccapi/data/storage_info.dart';
 import 'package:canon_ccapi/data/temperature_info.dart';
@@ -390,10 +391,34 @@ class Camera {
   ///
   /// Deletes the connection setting for the specified set.
   ///
-  Future<void> deleteConnectionSetting(
-      String name) async {
-    return await _deleteData('functions/networksetting/connectionsetting/$name',
-        this);
+  Future<void> deleteConnectionSetting(String name) async {
+    return await _deleteData(
+        'functions/networksetting/connectionsetting/$name', this);
   }
 
+  ///
+  /// Gets all the communication settings.
+  ///
+  Future<AllCommunicationSettings> getAllCommunicationSettings() async {
+    var data = await _getData('functions/networksetting/commsetting', this);
+    return AllCommunicationSettings.fromMap(data);
+  }
+
+  ///
+  /// Gets  the specific communication settings.
+  ///
+  Future<CommunicationSetting> getCommunicationSetting(String name) async {
+    var data =
+        await _getData('functions/networksetting/commsetting/$name', this);
+    return CommunicationSetting.fromMap(data);
+  }
+
+  ///
+  /// Gets  the specific communication settings.
+  ///
+  Future<void> setCommunicationSetting(
+      String name, CommunicationSetting setting) async {
+    return await _putData(
+        'functions/networksetting/commsetting/$name', this, setting.toMap());
+  }
 }
