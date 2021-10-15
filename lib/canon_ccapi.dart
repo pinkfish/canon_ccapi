@@ -5,11 +5,12 @@ import 'dart:io';
 
 import 'package:canon_ccapi/data/api_info.dart';
 import 'package:canon_ccapi/data/battery_info.dart';
-import 'package:canon_ccapi/data/copyright_info.dart';
 import 'package:canon_ccapi/data/lens_info.dart';
 import 'package:canon_ccapi/data/storage_info.dart';
 import 'package:canon_ccapi/data/temperature_info.dart';
+import 'package:canon_ccapi/data/value_ability.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'data/camera_info.dart';
 
@@ -42,7 +43,9 @@ class Camera {
   final ApiList _apiList;
   final JsonDecoder _json;
   static const List<String> _versions = ['ver100', 'ver110'];
-  static const JsonEncoder _encoder = const JsonEncoder();
+  static const JsonEncoder _encoder = JsonEncoder();
+  static final DateFormat _dateFormat =
+      DateFormat("EEE, dd MMM yyyy hh:mm:ss Z", 'en-us');
 
   Camera._(
       {required Uri cameraUri,
@@ -101,6 +104,18 @@ class Camera {
     throw const HandshakeException();
   }
 
+  static Future<void> _postData(
+      String api, Camera ob, Map<dynamic, dynamic> data) async {
+    var url = ob._apiList.getUrl(_versions, api);
+    var getUrl = ob._cameraUri.replace(path: url);
+
+    var result = await http.post(getUrl, body: _encoder.convert(data));
+    if (_checkResult(result.statusCode)) {
+      return ob._json.convert(result.body);
+    }
+    throw const HandshakeException();
+  }
+
   static Future<void> _deleteData(String api, Camera ob) async {
     var url = ob._apiList.getUrl(_versions, api);
     var getUrl = ob._cameraUri.replace(path: url);
@@ -112,6 +127,17 @@ class Camera {
     throw const HandshakeException();
   }
 
+  Future<String> _getString(String api, String name) async {
+    var data = await _getData(api, this);
+    return data[name];
+  }
+
+  Future<void> _putString(String api, String name, String value) async {
+    Map<String, String> stuff = {};
+    stuff[name] = value;
+    var data = await _putData(api, this, stuff);
+  }
+
   factory({required Uri cameraUri}) async {
     Uri versionsUrl = _cameraUri.replace(path: 'ccapi');
 
@@ -120,6 +146,7 @@ class Camera {
       var decoder = const JsonDecoder();
 
       var info = ApiList.fromMap(decoder.convert(data.body));
+
       // Convert the data into something useful.
       return Camera._(cameraUri: cameraUri, apiList: info, json: decoder);
     }
@@ -174,20 +201,170 @@ class Camera {
   }
 
   /// Get the copyright from the camera.
-  Future<CopyrightInfo> getCopyright() async {
-    var data = await _getData('functions/registeredname/copyright', this);
-    return CopyrightInfo.fromMap(data);
+  Future<String> getCopyrightHolder() async {
+    return _getString('functions/registeredname/copyright', 'copyright');
   }
 
-  /// Get the copyright from the camera.
-  Future<void> setCopyright(String name) async {
-    var data = CopyrightInfo((b) => b..copyright = name);
-    return await _putData(
-        'functions/registeredname/copyright', this, data.toMap());
+  /// Set the copyright on the camera.
+  Future<void> setCopyrightHolder(String name) async {
+    return await _putString(
+        'functions/registeredname/copyright', 'copyright', name);
   }
 
-  /// Get the copyright from the camera.
-  Future<void> deleteCopyright(String name) async {
+  /// Delete the copyright from the camera.
+  Future<void> deleteCopyrightHolder() async {
     return await _deleteData('functions/registeredname/copyright', this);
   }
+
+  /// Get the Author from the camera.
+  Future<String> getAuthorHolder() async {
+    return _getString('functions/registeredname/author', 'author');
+  }
+
+  /// Set the Author on the camera.
+  Future<void> setAuthor(String name) async {
+    return await _putString('functions/registeredname/author', 'author', name);
+  }
+
+  /// Delete the Author from the camera.
+  Future<void> deleteAuthor() async {
+    return await _deleteData('functions/registeredname/author', this);
+  }
+
+  /// Get the ownername from the camera.
+  Future<String> getOwnerName() async {
+    return _getString('functions/registeredname/ownername', 'ownername');
+  }
+
+  /// Set the ownername on the camera.
+  Future<void> setOwnerName(String name) async {
+    return await _putString(
+        'functions/registeredname/ownername', 'ownername', name);
+  }
+
+  /// Delete the ownername from the camera.
+  Future<void> deleteOwnerName() async {
+    return await _deleteData('functions/registeredname/ownername', this);
+  }
+
+  /// Get the nickname from the camera.
+  Future<String> getNickname() async {
+    return _getString('functions/registeredname/nickname', 'nickname');
+  }
+
+  /// Set the nickname on the camera.
+  Future<void> setNickname(String name) async {
+    return await _putString(
+        'functions/registeredname/nickname', 'nickname', name);
+  }
+
+  /// Delete the nickname from the camera.
+  Future<void> deleteNickname() async {
+    return await _deleteData('functions/registeredname/nickname', this);
+  }
+
+  /// Get the nickname from the camera.
+  Future<DateTime> getDateTime() async {
+    var data = await _getData('functions/datetime', this);
+    var val = HttpDate.parse(data["datetime"]);
+    return val;
+  }
+
+  /// Set the nickname on the camera.
+  Future<void> setDateTime(DateTime t, [bool dst = false]) async {
+    return await _putData('functions/datetime', this, {
+      'datetime': _dateFormat.format(t),
+      'dst': dst,
+    });
+  }
+
+  /// Formats the specified storage on the camera.
+  Future<void> formatCard(String storageName) {
+    return _postData('functions/cardformat', this, {
+      'name': storageName,
+    });
+  }
+
+  ///
+  /// Gets the current beep setting.
+  ///
+  Future<ValueAbility> getBeepSetting() async {
+    var data = await _getData('functions/beep', this);
+    return ValueAbility.fromMap(data);
+  }
+
+  ///
+  /// Sets the current beep setting.
+  ///
+  Future<void> setBeepSetting(String value) async {
+    return _putString('functions/beep', 'value', value);
+  }
+
+  ///
+  /// Gets the current beep setting.
+  ///
+  Future<ValueAbility> getAutoDisplayOffSetting() async {
+    var data = await _getData('functions/displayoff', this);
+    return ValueAbility.fromMap(data);
+  }
+
+  ///
+  /// Sets the current beep setting.
+  ///
+  Future<void> setAutoDisplayOff(String value) async {
+    return _putString('functions/displayoff', 'value', value);
+  }
+
+  ///
+  /// Gets the current auto power off setting.
+  ///
+  Future<ValueAbility> getAutoPowerOffSetting() async {
+    var data = await _getData('functions/autopoweroff', this);
+    return ValueAbility.fromMap(data);
+  }
+
+  ///
+  /// Sets the current auto power off setting.
+  ///
+  Future<void> setAutoPowerOffSetting(String value) async {
+    return _putString('functions/autopoweroff', 'value', value);
+  }
+
+  /// Disconnects the network connection.
+  Future<void> disconnectCommunication() {
+    return _postData(
+        'functions/networkconnection', this, {'action': 'disconnect'});
+  }
+
+  /// Reboots the camera.
+  Future<void> rebootCamera() {
+    return _postData('functions/networkconnection', this, {'action': 'reboot'});
+  }
+
+  ///
+  /// Gets the current beep setting.
+  ///
+  Future<ValueAbility> getCurrentConnectionSetting() async {
+    var data = await _getData(
+        'functions/networksetting/currentconnectionsetting', this);
+    return ValueAbility.fromMap(data);
+  }
+
+  ///
+  /// Sets the current beep setting.
+  ///
+  Future<void> setCurrentConnectionSetting(String value) async {
+    return _putString(
+        'functions/networksetting/currentconnectionsetting', 'value', value);
+  }
+
+  ///
+  /// Gets the current beep setting.
+  ///
+  Future<ValueAbility> getConnectionSetting() async {
+    var data = await _getData(
+        'functions/networksetting/connectionsetting', this);
+    return ValueAbility.fromMap(data);
+  }
+
 }
