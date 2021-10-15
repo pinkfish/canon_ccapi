@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'data/camera_info.dart';
+import 'data/connection_setting.dart';
 
 /// Type of the exception thrown by the camera.
 enum CameraExceptionType {
@@ -361,10 +362,38 @@ class Camera {
   ///
   /// Gets the current beep setting.
   ///
-  Future<ValueAbility> getConnectionSetting() async {
+  Future<AllConnectionSettings> getAllConnectionSettings() async {
+    var data =
+        await _getData('functions/networksetting/connectionsetting', this);
+    return AllConnectionSettings.fromMap(data);
+  }
+
+  ///
+  /// Gets the connection setting for the specified set.
+  ///
+  Future<ConnectionSetting> getConnectionSetting(String name) async {
     var data = await _getData(
-        'functions/networksetting/connectionsetting', this);
-    return ValueAbility.fromMap(data);
+        'functions/networksetting/connectionsetting/$name', this);
+
+    return ConnectionSetting.fromMap(data);
+  }
+
+  ///
+  /// Sets the connection setting for the specified set.
+  ///
+  Future<void> setConnectionSetting(
+      String name, ConnectionSetting setting) async {
+    return await _putData('functions/networksetting/connectionsetting/$name',
+        this, setting.toMap());
+  }
+
+  ///
+  /// Deletes the connection setting for the specified set.
+  ///
+  Future<void> deleteConnectionSetting(
+      String name) async {
+    return await _deleteData('functions/networksetting/connectionsetting/$name',
+        this);
   }
 
 }

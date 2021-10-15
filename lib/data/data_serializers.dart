@@ -3,6 +3,7 @@ import 'package:built_value/serializer.dart';
 import 'package:canon_ccapi/data/value_ability.dart';
 
 import 'battery_info.dart';
+import 'connection_setting.dart';
 import 'lens_info.dart';
 import 'temperature_info.dart';
 import 'api_info.dart';
@@ -29,6 +30,8 @@ part 'data_serializers.g.dart';
   BatteryPosition,
   BatteryListInfo,
   BatteryList,
+  ConnectionSetting,
+  AllConnectionSettings,
   LensInfo,
   TemperatureInfo,
   ValueAbility,
