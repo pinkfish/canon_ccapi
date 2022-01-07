@@ -8,6 +8,7 @@ import 'api_info.dart';
 import 'battery_info.dart';
 import 'camera_info.dart';
 import 'connection_setting.dart';
+import 'copyright_info.dart';
 import 'internet_address_serializer.dart';
 import 'lens_info.dart';
 import 'storage_info.dart';
@@ -25,6 +26,7 @@ part 'data_serializers.g.dart';
   AllConnectionSettings,
   ApiInfo,
   ApiList,
+  AuthorInfo,
   BatteryInfo,
   BatteryInfo,
   BatteryKind,
@@ -48,6 +50,7 @@ part 'data_serializers.g.dart';
   StorageInfoList,
   TemperatureInfo,
   ValueAbility,
+  CopyrightInfo,
 ])
 final Serializers dataSerializers = (_$dataSerializers.toBuilder()
       ..add(InternetAddressSerializer())

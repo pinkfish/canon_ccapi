@@ -56,20 +56,27 @@ abstract class StorageInfo implements Built<StorageInfo, StorageInfoBuilder> {
         as StorageInfo;
   }
 
+  /// Name of the storage.
   String get name;
 
+  /// The url used in v1.0 of the storage to identify the location.
   String? get url;
 
+  /// The path used in v1.1 of the api to identify the location.
   String? get path;
 
+  /// What type of accessibility the storage has.
   @BuiltValueField(wireName: 'accesscapability')
   AccessCapability get accessCapability;
 
+  /// Maximum amount of space.
   int get maxsize;
 
+  /// How much space is left.
   @BuiltValueField(wireName: 'spacesize')
   int get spaceSize;
 
+  /// How many items in the contents.
   @BuiltValueField(wireName: 'contentsnumber')
   int get contentsNumber;
 }
