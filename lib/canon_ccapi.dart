@@ -7,7 +7,6 @@ import 'package:canon_ccapi/data/api_info.dart';
 import 'package:canon_ccapi/data/battery_info.dart';
 import 'package:canon_ccapi/data/communication_setting.dart';
 import 'package:canon_ccapi/data/lens_info.dart';
-import 'package:canon_ccapi/data/storage_info.dart';
 import 'package:canon_ccapi/data/temperature_info.dart';
 import 'package:canon_ccapi/data/value_ability.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +14,7 @@ import 'package:intl/intl.dart';
 
 import 'data/camera_info.dart';
 import 'data/connection_setting.dart';
+import 'data/storage_info.dart';
 
 /// Type of the exception thrown by the camera.
 enum CameraExceptionType {
@@ -137,7 +137,7 @@ class Camera {
   Future<void> _putString(String api, String name, String value) async {
     Map<String, String> stuff = {};
     stuff[name] = value;
-    var data = await _putData(api, this, stuff);
+    await _putData(api, this, stuff);
   }
 
   factory({required Uri cameraUri}) async {

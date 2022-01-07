@@ -20,25 +20,25 @@ abstract class CameraInfo implements Built<CameraInfo, CameraInfoBuilder> {
   factory CameraInfo([void Function(CameraInfoBuilder) updates]) = _$CameraInfo;
 
   /// Version of the firmware.
-  @BuiltValue(wireName: 'firmwareversion')
+  @BuiltValueField(wireName: 'firmwareversion')
   String get firmwareVersion;
 
   /// "Canon" (fixed value)
   String get manufacturer;
 
   /// The product name
-  @BuiltValue(wireName: 'productname')
+  @BuiltValueField(wireName: 'productname')
   String get productName;
 
   /// Guid for the device.
   String get guid;
 
   /// Serial number
-  @BuiltValue(wireName: 'serialnumber')
+  @BuiltValueField(wireName: 'serialnumber')
   String get serialNumber;
 
   /// UUID (Mac Address)
-  @BuiltValue(wireName: 'macaddress')
+  @BuiltValueField(wireName: 'macaddress')
   String get macAddress;
 
   /// Serialize the CameraInfo to a map.

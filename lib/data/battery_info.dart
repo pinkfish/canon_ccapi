@@ -149,7 +149,7 @@ abstract class BatteryInfo implements Built<BatteryInfo, BatteryInfoBuilder> {
   BatteryLevel get level;
 
   /// The quality of the battery.
-  String get quality;
+  BatteryQuality get quality;
 
   /// Serializer for the BatteryInfo.
   static Serializer<BatteryInfo> get serializer => _$batteryInfoSerializer;
@@ -180,7 +180,7 @@ abstract class BatteryInfo implements Built<BatteryInfo, BatteryInfoBuilder> {
 abstract class BatteryListInfo
     implements Built<BatteryListInfo, BatteryListInfoBuilder> {
   /// The position of the battery.
-  BatteryPosition get position;
+  BatteryPosition? get position;
 
   /// The name of the battery
   String get name;
@@ -232,7 +232,7 @@ abstract class BatteryListInfo
 ///
 abstract class BatteryList implements Built<BatteryList, BatteryListBuilder> {
   /// THe list of batteries.
-  @BuiltValue(wireName: 'batterylist')
+  @BuiltValueField(wireName: 'batterylist')
   BuiltList<BatteryListInfo> get batteryList;
 
   /// Serializer for the BatteryList.

@@ -62,15 +62,15 @@ abstract class StorageInfo implements Built<StorageInfo, StorageInfoBuilder> {
 
   String? get path;
 
-  @BuiltValue(wireName: 'accesscapability')
+  @BuiltValueField(wireName: 'accesscapability')
   AccessCapability get accessCapability;
 
   int get maxsize;
 
-  @BuiltValue(wireName: 'spacesize')
+  @BuiltValueField(wireName: 'spacesize')
   int get spaceSize;
 
-  @BuiltValue(wireName: 'contentsnumber')
+  @BuiltValueField(wireName: 'contentsnumber')
   int get contentsNumber;
 }
 
@@ -80,7 +80,7 @@ abstract class StorageInfo implements Built<StorageInfo, StorageInfoBuilder> {
 abstract class StorageInfoList
     implements Built<StorageInfoList, StorageInfoListBuilder> {
   /// The list of storage types.
-  @BuiltValue(wireName: 'storagelist')
+  @BuiltValueField(wireName: 'storagelist')
   BuiltList<StorageInfo> get storageList;
 
   /// Serializer for the StorageInfoList.

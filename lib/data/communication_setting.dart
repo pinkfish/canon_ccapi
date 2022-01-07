@@ -153,6 +153,7 @@ class EnableDisable extends EnumClass {
   static const EnableDisable enable = _$enable;
 
   /// disable the thing.
+  @BuiltValueEnumConst(fallback: true)
   static const EnableDisable disable = _$disable;
 
   const EnableDisable._(String name) : super(name);
@@ -161,7 +162,8 @@ class EnableDisable extends EnumClass {
   static BuiltSet<EnableDisable> get values => _$EnableDisableValues;
 
   /// The value from the string.
-  static EnableDisable valueOf(String name) => _$EnableDisableValueOf(name);
+  static EnableDisable valueOf(String name) =>
+       _$EnableDisableValueOf(name);
 }
 
 ///
@@ -169,39 +171,69 @@ class EnableDisable extends EnumClass {
 ///
 abstract class CommunicationSetting
     implements Built<CommunicationSetting, CommunicationSettingBuilder> {
-  LanType get lantype;
+  @BuiltValueField(wireName: 'lantype')
+  LanType get lanType;
 
   String get ssid;
 
   ConnectionMethod get method;
 
-  int get channel;
+  @BuiltValueField(wireName: 'channel')
+  String get channelInternal;
+
+  @memoized
+  int get channel {
+    var data = int.tryParse(keyIndexInternal);
+    if (data == null) {
+      return 0;
+    }
+    return data;
+  }
 
   ConnectionAuthentication get authentication;
 
   ConnectionEncryption get encryption;
 
-  int get keyindex;
+  @BuiltValueField(wireName: 'keyindex')
+  String get keyIndexInternal;
+
+  @memoized
+  int get keyIndex {
+    var data = int.tryParse(keyIndexInternal);
+    if (data == null) {
+      return 0;
+    }
+    return data;
+  }
 
   String get password;
 
-  Ipv4AddressSet get ipv4_ipaddressset;
+  @BuiltValueField(wireName: 'ipv4_ipaddressset')
+  Ipv4AddressSet get ipv4IpAddressSet;
 
-  InternetAddress get ipv4_ipaddress;
+  @BuiltValueField(wireName: 'ipv4_ipaddress')
+  InternetAddress get ipv4IpAddress;
 
-  InternetAddress get ipv4_subnetmask;
+  @BuiltValueField(wireName: 'ipv4_subnetmask')
+  InternetAddress get ipv4SubnetMask;
 
-  InternetAddress get ipv4_gateway;
+  @BuiltValueField(wireName: 'ipv4_gateway')
+  InternetAddress get ipv4Gateway;
 
-  EnableDisable get ipv6_useipv6;
+  @BuiltValueField(wireName: 'ipv6_useipv6')
+  EnableDisable get ipv6UseIpv6;
 
-  EnableDisable get ipv6_manual_setting;
+  @BuiltValueField(wireName: 'ipv6_manual_setting')
+  EnableDisable get ipv6ManualSetting;
 
-  InternetAddress get ipv6_manual_address;
+  @BuiltValueField(wireName: 'ipv6_manual_address')
+  InternetAddress get ipv6ManualAddress;
 
-  String get ipv6_prefixlength;
+  @BuiltValueField(wireName: 'ipv6_prefixlength')
+  String get ipv6PrefixLength;
 
-  InternetAddress get ipv6_gateway;
+  @BuiltValueField(wireName: 'ipv6_gateway')
+  InternetAddress get ipv6Gateway;
 
   /// Serializer for the CommunicationSetting.
   static Serializer<CommunicationSetting> get serializer =>

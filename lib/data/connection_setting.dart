@@ -14,13 +14,13 @@ abstract class ConnectionSetting
   ///
   /// The exciting comm setting array.
   ///
-  @BuiltValue(wireName: 'commsetting')
+  @BuiltValueField(wireName: 'commsetting')
   List<String> get commSetting;
 
   ///
   /// The super thrilling function setting array.
   ///
-  @BuiltValue(wireName: 'functionsetting')
+  @BuiltValueField(wireName: 'functionsetting')
   List<String> get functionSetting;
 
   /// Serializer for the ConnectionSetting.

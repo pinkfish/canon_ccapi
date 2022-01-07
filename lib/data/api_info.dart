@@ -31,18 +31,19 @@ abstract class ApiInfo implements Built<ApiInfo, ApiInfoBuilder> {
         as ApiInfo;
   }
 
+  @BuiltValueField(wireName: 'path')
   String get url;
 
-  @BuiltValue(wireName: 'get')
+  @BuiltValueField(wireName: 'get')
   bool get supportsGet;
 
-  @BuiltValue(wireName: 'post')
+  @BuiltValueField(wireName: 'post')
   bool get supportsPost;
 
-  @BuiltValue(wireName: 'delete')
+  @BuiltValueField(wireName: 'delete')
   bool get supportsDelete;
 
-  @BuiltValue(wireName: 'put')
+  @BuiltValueField(wireName: 'put')
   bool get supportsPut;
 }
 
