@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:built_collection/built_collection.dart';
+import 'package:canon_ccapi/data/storage_info.dart';
 import 'package:test/test.dart';
 
-String dateV10 = """{
+String dataV10 = """{
  "storagelist": [
  {
  "name": "sd",
@@ -21,8 +25,6 @@ String dataV11 = """
  "path": "/ccapi/ver110/contents/cfex1",
  "accesscapability": "readwrite",
  "maxsize": 4016570368,
-Camera Control API Reference Copyright © Canon Inc. All Rights Reserved.
-4-38
  "spacesize": 3800924160,
  "contentsnumber": 511
  },
@@ -39,13 +41,48 @@ Camera Control API Reference Copyright © Canon Inc. All Rights Reserved.
 """;
 
 void main() {
-  test('String.split() splits the string on the delimiter', () {
-    var string = 'foo,bar,baz';
-    expect(string.split(','), equals(['foo', 'bar', 'baz']));
+  test('storage info - v1', () {
+    var decoder = const JsonDecoder();
+    var info = StorageInfoList.fromMap(decoder.convert(dataV10));
+    expect(
+        info,
+        equals(StorageInfoList(
+          (b) => b
+            ..storageList = ListBuilder([
+              StorageInfo((b) => b
+                ..name = 'sd'
+                ..url = "http://192.168.1.2:8080/ccapi/ver100/contents/sd"
+                ..accessCapability = AccessCapability.readwrite
+                ..maxsize = 4016570368
+                ..spaceSize = 3800924160
+                ..contentsNumber = 511),
+            ]),
+        )));
+  });
+  test('storage info - v1.1', () {
+    var decoder = const JsonDecoder();
+    var info = StorageInfoList.fromMap(decoder.convert(dataV11));
+    expect(
+        info,
+        equals(StorageInfoList(
+              (b) => b
+            ..storageList = ListBuilder([
+              StorageInfo((b) => b
+                ..name = 'cfex1'
+                ..path = "/ccapi/ver110/contents/cfex1"
+                ..accessCapability = AccessCapability.readwrite
+                ..maxsize = 4016570368
+                ..spaceSize = 3800924160
+                ..contentsNumber = 511),
+              StorageInfo((b) => b
+                ..name = 'cfex2'
+                ..path = "/ccapi/ver110/contents/cfex2"
+                ..accessCapability = AccessCapability.readwrite
+                ..maxsize = 4016570368
+                ..spaceSize = 3800924160
+                ..contentsNumber = 511),
+            ]),
+        )));
   });
 
-  test('String.trim() removes surrounding whitespace', () {
-    var string = '  foo ';
-    expect(string.trim(), equals('foo'));
-  });
 }

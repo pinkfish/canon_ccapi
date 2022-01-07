@@ -51,28 +51,24 @@ void main() {
     var info = CommunicationSetting.fromMap(decoder.convert(dataInner));
     expect(
         info,
-        equals(CommunicationSetting((b) =>
-          b
-            ..lanType = LanType.ether
-            ..ipv4Gateway = InternetAddress("0.0.0.0")
-            ..ipv4IpAddress = InternetAddress("192.168.1.2")
-            ..ipv4IpAddressSet = Ipv4AddressSet.manual
-            ..ipv6ManualAddress = InternetAddress('0.0.0.0')
-            ..ipv6UseIpv6 = EnableDisable.disable
-            ..ipv6ManualSetting = EnableDisable.disable
-            ..ipv4SubnetMask = InternetAddress('255.255.255.0')
-            ..ipv6PrefixLength = ''
-            ..ipv6Gateway = InternetAddress('0.0.0.0')
-            ..authentication = ConnectionAuthentication.open
-            ..ssid = ""
-            ..method = ConnectionMethod.infrastructure
-            ..encryption = ConnectionEncryption.none
-            ..keyIndexInternal = ''
-            ..password = ""
-            ..channelInternal = ''
-          )
-        ));
-
+        equals(CommunicationSetting((b) => b
+          ..lanType = LanType.ether
+          ..ipv4Gateway = InternetAddress("0.0.0.0")
+          ..ipv4IpAddress = InternetAddress("192.168.1.2")
+          ..ipv4IpAddressSet = Ipv4AddressSet.manual
+          ..ipv6ManualAddress = InternetAddress('0.0.0.0')
+          ..ipv6UseIpv6 = EnableDisable.disable
+          ..ipv6ManualSetting = EnableDisable.disable
+          ..ipv4SubnetMask = InternetAddress('255.255.255.0')
+          ..ipv6PrefixLength = ''
+          ..ipv6Gateway = InternetAddress('0.0.0.0')
+          ..authentication = ConnectionAuthentication.open
+          ..ssid = ""
+          ..method = ConnectionMethod.infrastructure
+          ..encryption = ConnectionEncryption.none
+          ..keyIndexInternal = ''
+          ..password = ""
+          ..channelInternal = '')));
   });
 
   test('Communication Setting - all', () {
@@ -80,10 +76,8 @@ void main() {
     var info = AllCommunicationSettings.fromMap(decoder.convert(data));
     expect(
         info,
-        equals(AllCommunicationSettings((b) =>
-        b
-          ..settings!["nw01"] = CommunicationSetting((b) =>
-          b
+        equals(AllCommunicationSettings((b) => b
+          ..settings["nw01"] = CommunicationSetting((b) => b
             ..lanType = LanType.ether
             ..ipv4Gateway = InternetAddress("0.0.0.0")
             ..ipv4IpAddress = InternetAddress("192.168.1.2")
@@ -92,6 +86,7 @@ void main() {
             ..ipv6UseIpv6 = EnableDisable.disable
             ..ipv6ManualSetting = EnableDisable.disable
             ..ipv6PrefixLength = ''
+            ..ipv6ManualAddress = InternetAddress('0.0.0.0')
             ..ipv6Gateway = InternetAddress('0.0.0.0')
             ..authentication = ConnectionAuthentication.open
             ..ssid = ""
@@ -99,8 +94,6 @@ void main() {
             ..encryption = ConnectionEncryption.none
             ..keyIndexInternal = ''
             ..password = ""
-            ..channelInternal = ''
-          )
-        )));
+            ..channelInternal = ''))));
   });
 }

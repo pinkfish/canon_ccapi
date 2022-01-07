@@ -267,7 +267,7 @@ abstract class AllCommunicationSettings
     implements
         Built<AllCommunicationSettings, AllCommunicationSettingsBuilder> {
   /// The communication settings by name.
-  Map<String, CommunicationSetting> get settings;
+  BuiltMap<String, CommunicationSetting> get settings;
 
   /// Serializer for the AllCommunicationSettings.
   static Serializer<AllCommunicationSettings> get serializer =>
