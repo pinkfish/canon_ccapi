@@ -45,6 +45,7 @@ part 'data_serializers.g.dart';
   Ipv4AddressSet,
   LanType,
   LensInfo,
+  NicknameInfo,
   Ipv4AddressSet,
   StorageInfo,
   StorageInfoList,
