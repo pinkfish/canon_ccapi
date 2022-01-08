@@ -91,6 +91,20 @@ abstract class ApiList implements Built<ApiList, ApiListBuilder> {
     throw ArgumentError.value(api, 'api');
   }
 
+  /// Gets the version for the app given the version list.
+  String getVersion(List<String> versions, String api) {
+    if (appVersions.containsKey(api)) {
+      for (var v in versions) {
+        if (appVersions[api]!.contains(v)) {
+          return v;
+        }
+      }
+      throw ArgumentError.value(versions, 'versions');
+    }
+    throw ArgumentError.value(api, 'api');
+  }
+
+
   /// Serialize the ApiList to a map.
   Map<String, dynamic> toMap() {
     return dataSerializers.serializeWith(ApiList.serializer, this)
